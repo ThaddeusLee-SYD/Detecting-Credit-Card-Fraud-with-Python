@@ -784,7 +784,7 @@ with the increase in Recall from the previous threshold used as the weight.
 
 
 - f1 Score
-s an alternative machine learning evaluation metric that assesses the predictive skill of a model 
+Is an alternative machine learning evaluation metric that assesses the predictive skill of a model 
 by elaborating on its class-wise performance rather than an overall performance as done by accuracy. 
 F1 score combines two competing metrics- precision and recall scores of a model, leading to its 
 widespread use in recent literature.
@@ -802,15 +802,11 @@ to precision importance. beta > 1 gives more weight to recall, while beta < 1 fa
 When we care more about minimizing false positives than minimizing false negatives,
 we would want to select a beta value of < 1 for the F-beta score. In other words, 
 precision would be given more weight than recall in this scenario. 
-In the example above, using the F-0.5 score, a logistic regression probability 
-threshold of ~0.25 would yield the best balance of precision and recall.
+
 
 On the other hand, when the priority is to minimize false negatives, we would 
 want to select a beta value of >1 for the F-beta score. Recall would be considered more 
-important than precision in this scenario. We can imagine that in a real-world problem 
-like the Haberman’s data set, it would probably be desirable to choose a higher 
-beta value to ensure that as many positive cases (people that died within five years) 
-could be identified, at the expense of having more false positives.
+important than precision in this scenario. 
 ###############################################################################
 
 
@@ -897,7 +893,7 @@ results.loc['knn','training_time']=knn.cv_results_['mean_fit_time'].mean()
 print('training time', results.loc['knn','training_time']) 
 
 
-# Prediction Time in Seconds per text
+# Prediction Time in Seconds
 results.loc['knn','prediction_time']=knn.cv_results_['mean_score_time'].mean()/len(y_test) 
 print('prediction time', results.loc['knn','prediction_time']) 
 
@@ -989,13 +985,14 @@ The closer the Gini index is towards 1, the higher the homogeneity is.
 ###################################################################################################
 Decision Tree Results
 ####################################################################################################
-average_precision 0.6761672314497005
-training time 0.08161332130432128
-prediction time 0.0003154945026969756
-KNN f_1score is:  0.813953488372093
-KNN fbeta_0_8 is:  0.8396723229959041
-KNN fbeta_1_5 is:  0.7724957555178268
-KNN fbeta_2_0 is:  0.7510729613733906
+dt average_precision is:  0.6154664866925882
+dt training_time is:  10.562634914398194
+dt prediction_time is:  2.7117969104025764e-07
+
+dt f1_score is:  0.7796610169491525
+dt fbeta_0_8 is:  0.7984758679085521
+dt fbeta_1_5 is:  0.7487479131886478
+dt fbeta_2_0 is:  0.7324840764331211
 
 
 
@@ -1059,7 +1056,7 @@ print(results.loc['dt','training_time'])
 print('dt training_time is: ',results.loc['dt','training_time'])
 
 
-# Prediction time (in seconds) per text
+# Prediction time (in seconds)
 results.loc['dt','prediction_time']=dt.cv_results_['mean_score_time'].mean()/len(y_test) 
 print(results.loc['dt','prediction_time']) 
 print('dt prediction_time is: ',results.loc['dt','prediction_time'])
@@ -1118,15 +1115,23 @@ This approach supports both regression and classification predictive modeling pr
 
 
 Again Using Gridsearch and setting cross validation to 5 gives us the following parameters:
--Best max_depth: 6
--Best min_child_weight: 1
--Best gamma: 0.02
--Best subsample: 0.9
--Best learning rate: 0.1
--Best n_estimators: 200
+Best max_depth: 3
+Best min_child_weight: 0.8
+Best gamma: 0.02
+Best subsample: 0.9
+Best col_sample by tree: 0.5
+Best learning rate: 0.1
+Best n_estimators: 500
 
 
-
+-Results of model
+xgb average_precision is:  0.7159329814577424
+xgb training_time is:  10.562634914398194
+xgb prediction_time is:  2.7117969104025764e-07
+xgb f1_score is:  0.839080459770115
+xgb fbeta_0_8 is:  0.863033448673587
+xgb fbeta_1_5 is:  0.8001686340640809
+xgb fbeta_2_0 is:  0.7799145299145299
 
 
 
@@ -1196,7 +1201,7 @@ print(results.loc['xgb','training_time'])
 print('xgb training_time is: ',results.loc['xgb','training_time'])
 
 
-# Prediction time (in seconds) per text
+# Prediction time (in seconds)
 results.loc['xgb','prediction_time']=dt.cv_results_['mean_score_time'].mean()/len(y_test) 
 print(results.loc['xgb','prediction_time']) 
 print('xgb prediction_time is: ',results.loc['xgb','prediction_time'])
@@ -1242,8 +1247,6 @@ print('xgb fbeta_2_0 is: ',results.loc['xgb','fbeta_2_0'])
 
 
 #https://medium.com/@douglaspsteen/beyond-the-f-1-score-a-look-at-the-f-beta-score-3743ac2ef6e3#:~:text=The%20F%2Dbeta%20score%20calculation,to%20the%20F%2D1%20Score.
-
-#If reducing false negatives,we would want to select a beta value of < 1
 
 
 
